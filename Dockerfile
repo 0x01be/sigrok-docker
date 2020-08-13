@@ -52,3 +52,7 @@ FROM arm32v6/alpine
 
 COPY --from=builder /opt/sigrok/ /opt/sigrok/
 
+ENV SIGROK_CLI_LIBS /opt/sigrok/lib
+ENV PKG_CONFIG_PATH $SIGROK_CLI_LIBS/pkgconfig/
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$SIGROK_CLI_LIBS/
+
