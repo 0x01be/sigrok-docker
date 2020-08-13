@@ -1,4 +1,4 @@
-FROM alpine as builder
+FROM arm32v6/alpine as builder
 
 RUN apk --no-cache add --virtual sigrok-build-dependencies \
     git \
@@ -48,7 +48,7 @@ RUN ./configure --prefix=/opt/sigrok
 RUN make
 RUN make install
 
-FROM alpine
+FROM arm32v6/alpine
 
 COPY --from=builder /opt/sigrok/ /opt/sigrok/
 
