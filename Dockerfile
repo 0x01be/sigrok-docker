@@ -6,8 +6,11 @@ RUN apk --no-cache add --virtual sigrok-build-dependencies \
     cmake \
     pkgconfig \
     autoconf \
+    autoconf-archive \
     automake \
     libtool \
+    doxygen \
+    graphviz \
     glib-dev \
     libzip-dev \
     libusb-dev \
@@ -15,9 +18,6 @@ RUN apk --no-cache add --virtual sigrok-build-dependencies \
     hidapi-dev \
     bluez-dev \
     libieee1284-dev \
-    doxygen \
-    graphviz \
-    autoconf-archive \
     python3-dev \
     glibmm-dev
 
@@ -52,7 +52,17 @@ FROM arm32v6/alpine
 
 COPY --from=builder /opt/sigrok/ /opt/sigrok/
 
-ENV SIGROK_CLI_LIBS /opt/sigrok/lib
-ENV PKG_CONFIG_PATH $SIGROK_CLI_LIBS/pkgconfig/
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$SIGROK_CLI_LIBS/
+RUN apk --no-cache add --virtual sigrok-runtime-dependencies \
+    glib-dev \
+    libzip-dev \
+    libusb-dev \
+    libftdi1-dev \
+    hidapi-dev \
+    bluez-dev \
+    libieee1284-dev \
+    python3-dev \
+    glibmm-dev
+
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/opt/sigrok/lib
+ENV LD_RUN_PATH $LD_RUN_PATH:/opt/sigrok/lib
 
