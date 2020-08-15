@@ -63,6 +63,8 @@ RUN apk --no-cache add --virtual sigrok-runtime-dependencies \
     python3-dev \
     glibmm-dev
 
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/opt/sigrok/lib
-ENV LD_RUN_PATH $LD_RUN_PATH:/opt/sigrok/lib
+ENV SIGROK_CLI_LIBS /opt/sigrok/lib
+ENV PKG_CONFIG_PATH $SIGROK_CLI_LIBS/pkgconfig/
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$SIGROK_CLI_LIBS
+ENV LD_RUN_PATH $LD_RUN_PATH:$SIGROK_CLI_LIBS
 
